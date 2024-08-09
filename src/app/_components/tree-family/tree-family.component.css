@@ -1,5 +1,18 @@
 /*----------------genealogy-scroll----------*/
 
+.toggle-icon {
+  width: 2rem; /* Defina uma largura fixa */
+  text-align: center; /* Centralize o conteúdo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.toggle-icon.closed {
+  left: 6.5rem; /* Posição inicial */
+}
+.toggle-icon.open {
+  left: 7.14rem; /* Mesma posição para evitar empurrar */
+}
 .genealogy-scroll::-webkit-scrollbar {
   width: 5px;
   height: 8px;
@@ -111,13 +124,13 @@
   position: relative;
 }
 .member-image {
-  width: 60px;
+  width: 80px;
   position: relative;
 }
 .member-image img {
-  width: 60px;
-  height: 60px;
-  border-radius: 6px;
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
   background-color: #000;
   z-index: 1;
 }

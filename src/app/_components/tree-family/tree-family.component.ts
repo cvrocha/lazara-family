@@ -20,19 +20,31 @@ export class TreeFamilyComponent implements AfterViewInit {
 
     const listItems = querySelectorAll('.genealogy-tree li');
     listItems.forEach((item) => {
-        item.addEventListener('click', (e: Event) => {
-            const children = item.querySelector('ul') as HTMLElement;
-            if (children) {
-                if (children.style.display === 'block') {
-                    children.style.display = 'none';
-                    children.classList.remove('active');
-                } else {
-                    children.style.display = 'block';
-                    children.classList.add('active');
-                }
-            }
-            e.stopPropagation();
+      const toggleIcon = item.querySelector('.toggle-icon') as HTMLElement;
+      const children = item.querySelector('ul') as HTMLElement;
+
+      if (children) {
+        toggleIcon.style.display = 'flex';
+        toggleIcon.addEventListener('click', (e: Event) => {
+          if (children.style.display === 'block') {
+            children.style.display = 'none';
+            toggleIcon.textContent = '+';
+            toggleIcon.classList.remove('open');
+            toggleIcon.classList.add('closed');
+          } else {
+            children.style.display = 'block';
+            toggleIcon.textContent = '-';
+            toggleIcon.classList.remove('closed');
+            toggleIcon.classList.add('open');
+          }
+          e.stopPropagation();
         });
+      } else {
+        toggleIcon.style.display = 'none';
+      }
     });
   }
+
 }
+
+
