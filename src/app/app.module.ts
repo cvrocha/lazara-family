@@ -11,6 +11,7 @@ import { BirthdaysComponent } from './_components/birthdays/birthdays.component'
 import { BannerComponent } from './_components/banner/banner.component';
 import { GalleryComponent } from './_components/gallery/gallery.component';
 import { TreeFamilyComponent } from './_components/tree-family/tree-family.component';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +27,8 @@ import { TreeFamilyComponent } from './_components/tree-family/tree-family.compo
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
