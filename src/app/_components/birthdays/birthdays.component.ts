@@ -10,9 +10,14 @@ import { HttpClient } from '@angular/common/http';
 export class BirthdaysComponent implements OnInit {
   @Input() dots = true;
   @Input() speed = 500;
-  @Input() slidesToShow = 3;
+  @Input() slidesToShow = 1;
   @Input() slidesToScroll = 1;
   @Input() arrowsButtons = true;
+  @Input() autoplay = false;
+  @Input() autoplaySpeed = 0;
+  @Input() fade = false;
+  @Input() cssEase = 'linear';
+  @Input() infinite = false;
   @Input() responsive: any[] = [
     { breakpoint: 1024, settings: { slidesToShow: 1, slidesToScroll: 1, dots: true } },
     { breakpoint: 600, settings: { slidesToShow: 2, slidesToScroll: 1 } },
@@ -22,16 +27,20 @@ export class BirthdaysComponent implements OnInit {
   birthdays: any[] = [];
   currentSlide = 0;
   itemsPerPage = this.slidesToShow;
+  autoplayInterval: any;
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.loadBirthdays();
     this.updateItemsPerPage();
+    if (this.autoplay) {
+      this.startAutoplay();
+    }
   }
 
   loadBirthdays(): void {
-    this.http.get<any[]>('assets/pessoas.json').subscribe(data => {
+    this.http.get<any[]>('assets/users.json').subscribe(data => {
       const currentMonth = new Date().getMonth() + 1;
       this.birthdays = data.filter(person => new Date(person.birthday.split('/').reverse().join('-')).getMonth() + 1 === currentMonth);
     }, error => console.error('Erro ao carregar o arquivo JSON', error));
@@ -62,7 +71,8 @@ export class BirthdaysComponent implements OnInit {
   }
 
   getTransformStyle(): string {
-    return `translate3d(${-(this.currentSlide * 100 / this.slidesToShow)}%, 0, 0)`;
+    const percentage = (this.currentSlide / this.birthdays.length) * 100;
+    return `translate3d(-${percentage}%, 0, 0)`;
   }
 
   updateItemsPerPage(): void {
@@ -102,6 +112,34 @@ export class BirthdaysComponent implements OnInit {
   onKeydown(event: KeyboardEvent, index: number): void {
     if (event.key === 'Enter' || event.key === ' ') {
       this.goToSlide(index);
+    }
+  }
+
+  startAutoplay(): void {
+    this.autoplayInterval = setInterval(() => {
+      if (this.canGoNext()) {
+        this.nextSlide();
+      } else if (this.infinite) {
+        this.currentSlide = 0;
+      }
+    }, this.autoplaySpeed);
+  }
+
+  stopAutoplay(): void {
+    if (this.autoplayInterval) {
+      clearInterval(this.autoplayInterval);
+    }
+  }
+
+  @HostListener('window:blur')
+  onWindowBlur(): void {
+    this.stopAutoplay();
+  }
+
+  @HostListener('window:focus')
+  onWindowFocus(): void {
+    if (this.autoplay) {
+      this.startAutoplay();
     }
   }
 }

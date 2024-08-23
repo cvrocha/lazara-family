@@ -12,6 +12,9 @@ import { BannerComponent } from './_components/banner/banner.component';
 import { GalleryComponent } from './_components/gallery/gallery.component';
 import { TreeFamilyComponent } from './_components/tree-family/tree-family.component';
 import { HttpClientModule } from '@angular/common/http';
+import { SliderComponent } from './_components/slider/slider.component';
+import { CarouselModule } from 'primeng/carousel';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,11 +27,14 @@ import { HttpClientModule } from '@angular/common/http';
     BannerComponent,
     GalleryComponent,
     TreeFamilyComponent,
+    SliderComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    CarouselModule
   ],
   providers: [],
   bootstrap: [AppComponent]

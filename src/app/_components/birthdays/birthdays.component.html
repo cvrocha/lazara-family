@@ -19,27 +19,30 @@
         </svg>
       </button>
     </div>
-    <div class="overflow-hidden">
-      <div class="flex transition-transform duration-500 ease-in-out h-52 items-end gap-24 justify-center"
-        [ngStyle]="{'transform': getTransformStyle(), 'transition-duration': speed + 'ms'}">
-        <div *ngFor="let birthday of getVisibleBirthdays()"
-          class="w-full max-w-sm h-36 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex-shrink-0"
-          [ngStyle]="{'flex-basis': (100 / slidesToShow) + '%'}">
-          <div class="flex flex-col items-center">
-            <div class="h-16">
-              <img class="w-24 h-24 mb-3 rounded-full shadow-lg bottom-11 relative object-cover" [src]="birthday.image"
-                [alt]="birthday.name + ' image'" />
-            </div>
-            <div class="flex justify-center items-center flex-col border-t-10 gap-2">
-              <h5 class="text-xl font-medium text-gray-900 dark:text-white">{{ birthday.name }}</h5>
-              <span class="text-lg font-medium text-gray-900">🎉 {{ formatBirthday(birthday.birthday) }}</span>
+    <div class="slick-list draggable">
+      <div class="overflow-hidden slick-track" style="width: 2800px">
+        <div class="flex transition-transform duration-500 ease-in-out h-52 items-end gap-24 justify-center"
+          [ngStyle]="{'transform': getTransformStyle(), 'transition-duration': speed + 'ms'}">
+          <div *ngFor="let birthday of getVisibleBirthdays()"
+            class="w-full max-w-sm h-36 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex-shrink-0"
+            [ngStyle]="{'flex-basis': (100 / slidesToShow) + '%'}">
+            <div class="flex flex-col items-center">
+              <div class="h-16">
+                <img class="w-24 h-24 mb-3 rounded-full shadow-lg bottom-11 relative object-cover"
+                  [src]="birthday.image" [alt]="birthday.name + ' image'" />
+              </div>
+              <div class="flex justify-center items-center flex-col border-t-10 gap-2">
+                <h5 class="text-xl font-medium text-gray-900 dark:text-white">{{ birthday.name }}</h5>
+                <span class="text-lg font-medium text-gray-900">🎉 {{ formatBirthday(birthday.birthday) }}</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div *ngIf="dots && showSlider()" class="flex justify-center mt-4">
-      <div *ngFor="let i of [].constructor(getTotalDots()); let index = index" class="w-2 h-2 rounded-full mx-2 cursor-pointer"
+      <div *ngFor="let i of [].constructor(getTotalDots()); let index = index"
+        class="w-2 h-2 rounded-full mx-2 cursor-pointer"
         [ngClass]="{'bg-gray-400': index !== getDotIndex(), 'bg-blue-500': index === getDotIndex()}"
         (click)="goToSlide(index)" (keydown)="onKeydown($event, index)" tabindex="0">
       </div>
