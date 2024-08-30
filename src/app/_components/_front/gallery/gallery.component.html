@@ -1,0 +1,72 @@
+<!-- eslint-disable @angular-eslint/template/alt-text -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<main class="container mx-auto px-4 my-10" id="galeria">
+  <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Galeria<span class="text-yellow1-600">.</span></h1>
+  <div class="filter-buttons my-5 flex justify-center">
+    <!-- Botão "Show all" -->
+    <button
+      class="px-5 py-2 mx-1 border-none cursor-pointer transition duration-300 hover:bg-green-700 hover:text-white"
+      [ngClass]="{'bg-green-600 text-white': selectedCategory === 'all', 'bg-gray-300': selectedCategory !== 'all'}"
+      (click)="filterSelection('all')">Todos</button>
+
+    <!-- Botões dinâmicos das categorias -->
+    <button *ngFor="let category of categories"
+      class="px-5 py-2 mx-1 border-none cursor-pointer transition duration-300 hover:bg-green-700 hover:text-white"
+      [ngClass]="{'bg-green-600 text-white': selectedCategory === category && category !== 'all', 'bg-gray-300': selectedCategory}"
+      (click)="filterSelection(category)">{{category}}</button>
+  </div>
+
+  <div class="gallery grid grid-cols-2 md:grid-cols-3 gap-4">
+    <div *ngFor="let photo of photos" class="photo relative border shadow-sm rounded-lg h-64 max-w-full"
+      [ngClass]="{'hidden': !(photo.category === selectedCategory || selectedCategory === 'all')}">
+
+      <!-- Imagem com hover -->
+      <img class="object-cover block cursor-pointer h-full w-full rounded-lg transition-opacity duration-300 ease-in-out hover:opacity-70"
+        [src]="photo.src" [alt]="photo.alt">
+
+      <!-- Ícones sobrepostos -->
+      <div class="icons absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 ease-in-out hover:opacity-100">
+        <!-- Ícone de expandir -->
+        <button (click)="openModal(photo)" class="expand-icon bg-white p-2 rounded-full shadow-lg m-2">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-gray-800">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v6h6m0-6L5 5m15 15v-6h-6m6 6L19 19"/>
+          </svg>
+        </button>
+        <!-- Ícone de download -->
+        <button (click)="downloadImage(photo.src, photo.alt)" class="download-icon bg-white p-2 rounded-full shadow-lg m-2">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-gray-800">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2m-6-8v6m0 0l-2-2m2 2l2-2m-2 2V4"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="myModal"
+    class="modal fixed z-10 left-0 top-0 w-full h-full overflow-auto bg-black bg-opacity-90 flex items-center justify-center flex-col gap-0"
+    [ngStyle]="{'display': modalDisplay}">
+
+    <!-- Conteúdo da modal incluindo a imagem e botões -->
+    <div class="relative m-auto max-w-full max-h-screen mb-0">
+      <img class="modal-content block w-full h-auto rounded-lg" id="img01" [src]="modalImgSrc" />
+
+      <!-- Botão de fechar -->
+      <span
+        class="close absolute top-4 right-4 text-white text-5xl font-bold transition duration-300 hover:text-gray-400 cursor-pointer"
+        (click)="closeModal()">×</span>
+
+      <!-- Botão de voltar -->
+      <button
+        class="prev absolute top-3 left-3 transform -translate-y-1/2 text-white text-5xl font-bold transition duration-300 hover:text-gray-400 cursor-pointer"
+        (click)="prevImage()">❮</button>
+
+      <!-- Botão de avançar -->
+      <button
+        class="next absolute top-3 right-3 transform -translate-y-1/2 text-white text-5xl font-bold transition duration-300 hover:text-gray-400 cursor-pointer"
+        (click)="nextImage()">❯</button>
+    </div>
+
+    <div id="caption" class="text-center text-gray-400 py-2.5 mb-10">{{modalCaption}}</div>
+  </div>
+</main>

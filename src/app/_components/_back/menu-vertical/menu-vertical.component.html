@@ -1,0 +1,35 @@
+<aside class="sidebar bg-red-600" [ngClass]="{ 'collapsed': isCollapsed }">
+  <!-- Toggle Button -->
+  <button (click)="toggleMenu()" class="menu-toggle" [ngClass]="{ 'open': !isCollapsed, 'closed': isCollapsed }">
+    <i class="fas" [ngClass]="isCollapsed ? 'fa-chevron-right' : 'fa-chevron-left'"></i>
+  </button>
+
+  <!-- Logo and Name -->
+  <div class="logo-container">
+    <a routerLink="dashboard" class="logo flex items-center space-x-3 rtl:space-x-reverse" *ngIf="!isCollapsed">
+      <img src="assets/images/fl.svg" class="h-8 logo-img" alt="Família Lazara Logo" />
+      <span class="logo-name self-center">Família Lazara</span>
+    </a>
+    <a routerLink="dashboard" class="logo" *ngIf="isCollapsed">
+      <img src="assets/images/fl.svg" class="h-8 logo-img" alt="Família Lazara Logo" />
+    </a>
+  </div>
+
+  <!-- Menu Items -->
+  <ul class="menu-list">
+    <li *ngFor="let item of menuItems">
+      <a [href]="item.route" class="menu-item">
+        <i [class]="item.icon"></i>
+        <span *ngIf="!isCollapsed">{{ item.name }}</span>
+      </a>
+    </li>
+  </ul>
+
+  <!-- Logout Button -->
+  <form (ngSubmit)="logout()" class="logout-form">
+    <button type="submit" class="menu-item logout-item">
+      <i class="fas fa-sign-out-alt"></i>
+      <span *ngIf="!isCollapsed">Logout</span>
+    </button>
+  </form>
+</aside>
